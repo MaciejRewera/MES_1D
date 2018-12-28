@@ -46,10 +46,20 @@ void initPL(Element *currentElement) {
     currentElement->PL[0] = - alpha * t_otoczenia * S;
 }
 
+/**************************************/
+void printHG(double** array) {
+    std::cout << std::endl;
+    for (int i = 0; i < nh; i++) {
+        for (int j = 0; j < nh; j++) {
+            std::cout << array[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+}
+
+
 
 int main() {
-    std::cout << "Let start the PARTY!!!" << std::endl;
-
     double deltaX = L / (nh - 1);
     
     // Generating nodes
@@ -100,7 +110,19 @@ int main() {
         soe.TG[i] = 0.0;
     }
 
+    printHG(soe.HG);
 
+
+    for (int i = 0; i < (nh - 1); i++) {
+        Element* currentElement = &elements[i];
+
+        soe.HG[currentElement->ID[0] - 1][currentElement->ID[0] - 1] += currentElement->HL[0][0];
+        soe.HG[currentElement->ID[0] - 1][currentElement->ID[1] - 1] += currentElement->HL[0][1];
+        soe.HG[currentElement->ID[1] - 1][currentElement->ID[0] - 1] += currentElement->HL[1][0];
+        soe.HG[currentElement->ID[1] - 1][currentElement->ID[1] - 1] += currentElement->HL[1][1];
+    }
+
+    printHG(soe.HG);
 
 
 
